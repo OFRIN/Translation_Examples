@@ -7,11 +7,12 @@ class Naver_Dictionary:
         
     def get(self, word):
         response = requests.get(self.url + word)
-        soup = BeautifulSoup(response.content, "lxml")
-        
-        try:
-            result = soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text()
-        except:
-            result = None
+        # soup = BeautifulSoup(response.content, "html.parser")
+        soup = BeautifulSoup(response.text, "html.parser")
 
-        return result
+        for obj in soup.select('div > p > a'):
+            print(obj.text)
+        
+        open('sample_from_text.html', 'w').write(soup.prettify())
+
+        
